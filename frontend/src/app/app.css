@@ -1,0 +1,54 @@
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #0f111a;
+  color: #a0a6b1;
+  font-family: 'Inter', sans-serif;
+}
+
+.sidebar {
+  width: 250px;
+  background: #161925;
+  padding: 20px;
+  border-right: 1px solid #2d3142;
+}
+
+.sidebar-logo {
+  color: white;
+  margin-bottom: 30px;
+  font-size: 24px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+
+.nav-link {
+  text-decoration: none;
+  color: #a0a6b1; 
+  padding: 12px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+
+.nav-link:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+
+.active {
+  background: #1e2235 !important; 
+  color: white !important;        
+  font-weight: bold;
+  border-left: 4px solid #6366f1; 
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+}

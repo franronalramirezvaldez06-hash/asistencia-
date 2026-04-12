@@ -1,0 +1,53 @@
+<div class="container">
+  <header class="header">
+    <div>
+      <h1>Gestión de Grupos</h1>
+      <p>Administra las secciones y grupos de alumnos</p>
+    </div>
+    <button (click)="abrirModal()" class="btn-new">
+      <span class="icon">+</span> Nuevo Grupo
+    </button>
+  </header>
+
+  <div class="grupos-grid">
+    @for (grupo of listaGrupos(); track grupo.id) {
+      <div class="grupo-card">
+        <div class="card-accent"></div>
+        <div class="card-content">
+          <span class="id-tag">ID #{{ grupo.id }}</span>
+          <h3>{{ grupo.nombre }}</h3>
+          <p>Sección activa</p>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <p>No hay grupos registrados. ¡Crea el primero!</p>
+      </div>
+    }
+  </div>
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Crear Nuevo Grupo</h2>
+          <button (click)="cerrarModal()" class="btn-close">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <label>Nombre del Grupo / Sección</label>
+          <input 
+            [(ngModel)]="nombreGrupo" 
+            type="text" 
+            placeholder="Ej. 5to Grado B, Java Avanzado..." 
+            class="input-dark">
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="cerrarModal()" class="btn-cancel">Cancelar</button>
+          <button (click)="guardarGrupo()" class="btn-save">Guardar Grupo</button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

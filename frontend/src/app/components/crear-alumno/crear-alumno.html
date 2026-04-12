@@ -1,0 +1,99 @@
+<div class="container">
+  <header class="header">
+    <div class="header-info">
+      <h1>Gestión de Alumnos</h1>
+      <p>Lista oficial de estudiantes por grupo</p>
+    </div>
+    
+    <div class="header-actions">
+      <select [(ngModel)]="idGrupoFiltro" (change)="cargarAlumnosDelGrupo()" class="select-dark">
+        @for (g of grupos(); track g.id) {
+          <option [value]="g.id">Grupo: {{ g.nombre }}</option>
+        }
+      </select>
+
+      <button (click)="abrirModal()" class="btn-new">
+        <span class="icon">+</span> Nuevo Alumno
+      </button>
+    </div>
+  </header>
+
+  <div class="alumnos-list">
+    @for (alumno of listaAlumnos(); track alumno.id) {
+      <div class="alumno-row">
+        <div class="alumno-main">
+          <div class="alumno-avatar">{{ alumno.nombre.charAt(0) }}</div>
+          <div class="alumno-details">
+            <h3>{{ alumno.nombre }}</h3>
+            <span class="id-badge">ID #{{ alumno.id }}</span>
+          </div>
+        </div>
+
+        <div class="alumno-data">
+          <div class="data-item">
+            <label>DNI</label>
+            <p>{{ alumno.dni }}</p>
+          </div>
+          <div class="data-item">
+            <label>Teléfono</label>
+            <p>{{ alumno.telefono }}</p>
+          </div>
+        </div>
+
+        <div class="alumno-actions">
+          <button (click)="editarAlumno(alumno)" class="btn-edit" title="Editar">✏️</button>
+          <button (click)="eliminarAlumno(alumno.id)" class="btn-delete" title="Eliminar">🗑️</button>
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <p>No hay alumnos registrados en este grupo.</p>
+      </div>
+    }
+  </div>
+
+  @if (mostrarModal()) {
+    <div class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>{{ editando() ? 'Editar Alumno' : 'Nuevo Alumno' }}</h2>
+          <button (click)="cerrarModal()" class="btn-close-x">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+          <div class="input-field">
+            <label>Nombre Completo</label>
+            <input [(ngModel)]="alumnoForm.nombre" type="text" placeholder="Ej. Juan Pérez" class="input-dark">
+          </div>
+          
+          <div class="input-grid">
+            <div class="input-field">
+              <label>DNI</label>
+              <input [(ngModel)]="alumnoForm.dni" type="text" placeholder="Número de ID" class="input-dark">
+            </div>
+            <div class="input-field">
+              <label>Teléfono</label>
+              <input [(ngModel)]="alumnoForm.telefono" type="text" placeholder="999 999 999" class="input-dark">
+            </div>
+          </div>
+
+          <div class="input-field">
+            <label>Grupo Asignado</label>
+            <select [(ngModel)]="alumnoForm.grupo.id" class="input-dark">
+              @for (g of grupos(); track g.id) {
+                <option [value]="g.id">{{ g.nombre }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button (click)="cerrarModal()" class="btn-cancel">Cancelar</button>
+          <button (click)="guardar()" class="btn-save">
+            {{ editando() ? 'Actualizar Datos' : 'Registrar Alumno' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+</div>

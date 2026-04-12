@@ -1,0 +1,104 @@
+<div class="page">
+  <div class="page-header">
+    <div>
+      <h1>Registrar Asistencia</h1>
+      <p class="subtitle">Selecciona el grupo y el estado de cada alumno</p>
+    </div>
+    
+    <div class="header-right">
+      <select (change)="onGrupoChange($event)" class="select-custom">
+        <option value="">Seleccione un grupo...</option>
+        @for (g of grupos(); track g.id) {
+          <option [value]="g.id">{{ g.nombre }}</option>
+        }
+      </select>
+
+      <input
+        type="date"
+        [(ngModel)]="fechaHoy"
+        (change)="cargarDatosCombinados()"
+        class="date-input"
+      />
+    </div>
+  </div>
+ 
+  <div class="resumen" *ngIf="alumnos().length > 0">
+    <div class="res-item verde">
+      <span class="res-num">{{ resumen.presentes }}</span>
+      <span class="res-lbl">Presentes</span>
+    </div>
+    <div class="res-item amarillo">
+      <span class="res-num">{{ resumen.tardanzas }}</span>
+      <span class="res-lbl">Tardanzas</span>
+    </div>
+    <div class="res-item rojo">
+      <span class="res-num">{{ resumen.faltas }}</span>
+      <span class="res-lbl">Faltas</span>
+    </div>
+    <div class="res-item azul">
+      <span class="res-num">{{ resumen.justificados }}</span>
+      <span class="res-lbl">Justificados</span>
+    </div>
+  </div>
+ 
+  <div class="leyenda" *ngIf="alumnos().length > 0">
+    <span class="ley presente">P = Presente</span>
+    <span class="ley tarde">T = Tarde</span>
+    <span class="ley falta">F = Falta</span>
+    <span class="ley justificado">J = Justificado</span>
+  </div>
+ 
+  <div class="lista-card">
+    @for (alumno of alumnos(); track alumno.id) {
+      <div class="alumno-row">
+        <div class="alumno-info">
+          <div class="alumno-avatar">{{ alumno.nombre[0] }}</div>
+          <div>
+            <div class="alumno-nombre">{{ alumno.nombre }}</div>
+            <div class="alumno-dni" *ngIf="alumno.dni">DNI: {{ alumno.dni }}</div>
+          </div>
+        </div>
+ 
+        <div class="estado-btns">
+          @for (est of estados; track est.id) {
+            <button
+              type="button"
+              class="e-btn"
+              [class.sel-presente]="alumno.estado === 1 && est.id === 1"
+              [class.sel-tarde]="alumno.estado === 2 && est.id === 2"
+              [class.sel-falta]="alumno.estado === 3 && est.id === 3"
+              [class.sel-justificado]="alumno.estado === 4 && est.id === 4"
+              (click)="marcar(alumno, est.id)"
+              [title]="est.titulo">
+              {{ est.nombre }}
+            </button>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        <p>Selecciona un grupo para cargar los alumnos.</p>
+      </div>
+    }
+  </div>
+
+  <div class="contenedor-boton">
+    <button
+      class="btn-guardar"
+      (click)="guardarAsistencia()"
+      [disabled]="guardando() || alumnos().length === 0"
+      [class.loading]="guardando()"
+      [class.success]="guardado()">
+
+      <span *ngIf="!guardando() && !guardado()" class="btn-content">
+
+        Guardar asistencia
+      </span>
+      <span *ngIf="guardando()">Guardando...</span>
+      <span *ngIf="guardado()">¡Guardado!</span>
+    </button>
+  </div>
+</div>

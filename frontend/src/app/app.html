@@ -1,0 +1,38 @@
+<div class="app-layout">
+  
+  <aside class="sidebar">
+    <h2 class="sidebar-logo">Asistencia</h2>
+    
+    <nav class="nav-menu">
+      <a routerLink="/" 
+         routerLinkActive="active" 
+         [routerLinkActiveOptions]="{exact: true}"
+         class="nav-link">
+         Dashboard
+      </a>
+      
+      <a routerLink="/crear-alumno" 
+         routerLinkActive="active" 
+         class="nav-link">
+         Alumnos
+      </a>
+      
+      <a routerLink="/crear-grupo" 
+         routerLinkActive="active" 
+         class="nav-link">
+          Grupos
+      </a>
+      
+      <a routerLink="/registrar" 
+         routerLinkActive="active" 
+         class="nav-link">
+         Registrar Asistencia
+      </a>
+    </nav>
+  </aside>
+
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
+</div>
